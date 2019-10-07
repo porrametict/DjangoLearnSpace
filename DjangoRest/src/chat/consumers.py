@@ -37,6 +37,7 @@ class ChatConsumer(WebsocketConsumer):
 
     def message_to_json(self,message):
         return {
+            'id' : message.id,
             'author' : message.author.username,
             'content' : message.content,
             'timestamp' : str(message.timestamp)
@@ -76,6 +77,7 @@ class ChatConsumer(WebsocketConsumer):
 
     def send_chat_message(self,message):
         # Send message to room group
+        print("send message",message)
         async_to_sync(self.channel_layer.group_send) (
             self.room_group_name,
             {
