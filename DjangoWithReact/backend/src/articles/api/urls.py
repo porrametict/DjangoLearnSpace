@@ -1,8 +1,11 @@
-from articles.api.view import ArticleViewSet
+from 
+.api.view import ArticleViewSet
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
 router.register(r'', ArticleViewSet, basename='articles')
+
+
 urlpatterns = router.urls
 
 

@@ -1,11 +1,17 @@
-from rest_framework import viewsets
+from rest_framework import viewsets,permissions
+from rest_framework.permissions import IsAuthenticated
 
 from articles.models import Article
 from .serialzers import ArticleSerializer
 
+
 class ArticleViewSet(viewsets.ModelViewSet):
+    permission_classes = [
+        IsAuthenticated
+    ]
     serializer_class = ArticleSerializer
     queryset = Article.objects.all()
+    
 
 # from rest_framework.generics import (
 #     ListAPIView,

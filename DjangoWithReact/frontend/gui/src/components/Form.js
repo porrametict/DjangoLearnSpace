@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Form, Input, Button } from 'antd';
+import {connect} from 'react-redux'
 import axios from 'axios';
 
 class CustomForm extends React.Component {
@@ -12,7 +13,11 @@ class CustomForm extends React.Component {
         // event.preventDefault();
         const title = event.target.elements.title.value;
         const content = event.target.elements.content.value;
-
+        axios.defaults.headers = {
+          "Content-Type" : "application/json",
+          Authorization : this.props.token
+      }
+      console.log(this.props.token,"token")
         switch (requestType){
             case 'post':
                 return axios.post('http://127.0.0.1:8000/api/',{
@@ -38,7 +43,6 @@ class CustomForm extends React.Component {
                     })
         }
     }
-
   render() {
     return (
       <div>
@@ -58,4 +62,10 @@ class CustomForm extends React.Component {
   }
 }
 
-export default CustomForm;
+const  mapStateTpProps = state => {
+  return {
+    token : state.token 
+  } 
+}
+
+export default connect(mapStateTpProps)(CustomForm);

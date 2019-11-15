@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios'
 import Articles from '../components/Article'
-
+import {connect} from 'react-redux'
 import CustomForm from  '../components/Form'
 
 class ArticleList extends React.Component {
@@ -10,14 +10,21 @@ class ArticleList extends React.Component {
         articles : []
     }
 
-    componentDidMount () {
-            axios.get('http://127.0.0.1:8000/api/')
-            .then (res => {
-                this.setState({
-                    articles : res.data
-                });
-
-            })
+    componentWillReceiveProps (newProps) {
+        console.log(newProps.token,"newProps")
+        if(newProps.token){
+            axios.defaults.headers = {
+                "Content-Type" : "application/json",
+                Authorization : newProps.token
+            }
+                axios.get('http://127.0.0.1:8000/api/')
+                .then (res => {
+                    this.setState({
+                        articles : res.data
+                    });
+    
+                })
+        }
     }
     render () {
         return (
@@ -31,4 +38,12 @@ class ArticleList extends React.Component {
         )
     }
 } 
-export default ArticleList;
+
+
+const  mapStateTpProps = state => {
+    return {
+      token : state.token 
+    } 
+}
+
+export default connect(mapStateTpProps)(ArticleList);
